@@ -1,17 +1,15 @@
 class Comic < ApplicationRecord
-    include HTTParty
-    base_uri = 'https://gateway.marvel.com:443/v1/public/comics/1?apikey='
+  require 'digest/md5'
+  require 'rest-client'
 
-    def initialize
-    end
+  def self.get_comics
+    parsed_data = JSON.parse(call_api)
+    parsed_data['data']['results'].map { |results| {"id" => results["id"], "title" => results["title"], "image" => results["thumbnail"]["path"]} }
+  end
 
-    def get_comics()
-        call_api
-    end
+  private
 
-    private
-
-    def call_api
-        response = HTTParty.get("#{base_uri}07e3e205bebd46de31d15ee9a76d85c2")
-    end
+  def self.call_api
+    RestClient.get("#{Rails.application.secrets.url}#{Rails.application.credentials[:MARVEL_API][:PUBLIC_KEY]}&hash=#{Digest::MD5.hexdigest(Rails.application.credentials[:MARVEL_API][:HASH])}&ts=1234&orderBy=-onsaleDate")
+  end
 end
