@@ -1,18 +1,18 @@
-<div class="container">	
-    <nav class="navbar sticky-top">
-        <div class="row mx-auto">
-            <div class="col-9 ">
-                <div class="marvel-logo mt-4 justify-content-center">
-                    <%= image_tag "marvel_logo.png", class: "image" %>
-                </div>
-                <%= form_tag comics_index_path, local: true, method: :get  do %>
-                    <div class="form-control input-group-btn">
-                        <%= text_field_tag :search, params[:search], placeholder: "ex: Wolverine" %>
-                    </div>
-                <% end %>
+<nav class="navbar sticky-top">
+    <div class="row mx-auto">
+        <div class="col-9 ">
+            <div class="marvel-logo">
+                <%= image_tag "marvel_logo.png", class: "image" %>
             </div>
+            <%= form_tag comics_index_path, local: true, method: :get  do %>
+                <div class="form-control input-group-btn search-button">
+                    <%= text_field_tag :search, params[:search], placeholder: "ex: Wolverine" %>
+                </div>
+            <% end %>
         </div>
-    </nav>
+    </div>
+</nav>
+<div class="container">	
 	<% @comics.each do |comic| %>
         <div class="comic-card">
             <div class="comic-header">
