@@ -9,9 +9,4 @@ class ComicsController < ApplicationController
     end
     @comics
   end
-
-  def by_character
-    @offset = params.fetch(:offset, 0).to_i
-    @offset = 0 if @offset <= 0
-  end
 end
