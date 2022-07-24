@@ -5,9 +5,11 @@
                 <div class="marvel-logo mt-4 justify-content-center">
                     <%= image_tag "marvel_logo.png", class: "image" %>
                 </div>
-                <div class="form-control input-group-btn">
-                    <%= text_field_tag :character, params[:character], placeholder: "e.g. Deadpool" %>
-                </div>
+                <%= form_tag comics_index_path, local: true, method: :get  do %>
+                    <div class="form-control input-group-btn">
+                        <%= text_field_tag :search, params[:search], placeholder: "ex: Wolverine" %>
+                    </div>
+                <% end %>
             </div>
         </div>
     </nav>
@@ -18,11 +20,11 @@
                 <div class="heart_effect">
                  <%= %>
                     <% if comic["id"].to_s.in?(session[:comics_upvoted])  %>
-                        <%= button_to remove_vote_path(:id => comic["id"]), method: "delete", class: "button_heart" do %>
+                        <%= button_to remove_vote_path(:id => comic["id"], :search_term => params[:search] ), method: "delete", class: "button_heart" do %>
                             <%= image_tag 'heart_on.png' %>
                         <% end %>
                     <% else %>
-                        <%= button_to add_vote_path(:id => comic["id"]), class: "button_heart" do %>
+                        <%= button_to add_vote_path(:id => comic["id"], :search_term => params[:search]), class: "button_heart" do %>
                             <%= image_tag 'heart_off.png' %>
                         <% end %>
                     <% end %>
