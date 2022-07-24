@@ -1,2 +1,44 @@
-<h1>Comics#index</h1>
-<p>Find me in app/views/comics/index.html.erb</p>
+<div class="container">	
+    <nav class="navbar sticky-top">
+        <div class="row mx-auto">
+            <div class="col-9 ">
+                <div class="marvel-logo mt-4 justify-content-center">
+                    <%= image_tag "marvel_logo.png", class: "image" %>
+                </div>
+                <div class="form-control input-group-btn">
+                    <%= text_field_tag :character, params[:character], placeholder: "e.g. Deadpool" %>
+                </div>
+            </div>
+        </div>
+    </nav>
+	<% @comics.each do |comic| %>
+        <div class="comic-card">
+            <div class="comic-header">
+                <%= image_tag comic["image"], :class => "img_preview" %>
+                <div class="heart_effect">
+                 <%= %>
+                    <% if comic["id"].to_s.in?(session[:comics_upvoted])  %>
+                        <%= button_to remove_vote_path(:id => comic["id"]), method: "delete", class: "button_heart" do %>
+                            <%= image_tag 'heart_on.png' %>
+                        <% end %>
+                    <% else %>
+                        <%= button_to add_vote_path(:id => comic["id"]), class: "button_heart" do %>
+                            <%= image_tag 'heart_off.png' %>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+            <div class="comic-content">
+                <div class="comic-content-header">
+                    <h4 class="comic-title"> 
+                        <%= comic["title"] %> 
+                    </h4>
+                </div>
+            </div>
+        </div>
+    <% end %>
+	<div class="btn footer">
+        <%= link_to "PREVIOUS PAGE", comics_index_path(offset: @offset - 20), :class => "btn btn-left" %>
+	    <%= link_to "NEXT PAGE", comics_index_path(offset: @offset + 20), :class => "btn btn-right" %>
+	</div>
+</div>
